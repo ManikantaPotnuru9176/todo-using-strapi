@@ -1,0 +1,108 @@
+.todo-heading {
+  text-align: center;
+  color: #777;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.todo-container {
+  margin: 10px auto;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
+
+.add-form,
+.edit-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.todo-input,
+.edit-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  margin: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #999;
+}
+
+.add-form .todo-input:not(:placeholder-shown) + .cancel-button,
+.edit-form .edit-input:not(:placeholder-shown) + .cancel-button {
+  visibility: visible;
+}
+
+.add-button,
+.edit-button,
+.delete-button,
+.update-button,
+.todo-checkbox {
+  margin: 10px;
+  cursor: pointer;
+  color: #777;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.uncompleted-task,
+.completed-task {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.completed-task {
+  text-decoration: line-through;
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.cancel-button {
+  position: absolute;
+  margin-right: 10px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: #777;
+  background-color: #fff;
+  border: none;
+  padding: 2px;
+  visibility: hidden;
+}
+
+.add-button:hover,
+.edit-button:hover,
+.delete-button:hover,
+.update-button:hover,
+.todo-checkbox:hover,
+.cancel-button:hover {
+  color: #333;
+}

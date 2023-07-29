@@ -1,0 +1,27 @@
+.toggle-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.toggle-icon-container .fa-toggle-on,
+.toggle-icon-container .fa-toggle-off {
+  color: #777;
+}
+
+.toggle-icon-container:hover .fa-toggle-on,
+.toggle-icon-container:hover .fa-toggle-off {
+  color: #333;
+}
+
+p {
+  text-align: center;
+  color: #777;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px;
+}
+
