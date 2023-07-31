@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Todo.css";
+import toast, { Toaster } from "react-hot-toast";
 
 const TodoInstant = () => {
   const [todos, setTodos] = useState([]);
@@ -10,6 +11,10 @@ const TodoInstant = () => {
   useEffect(() => {
     fetchTodos();
   }, []);
+
+  const notifySuccess = (msg) => toast.success(msg);
+
+  const notifyError = (msg) => toast.error(msg);
 
   const fetchTodos = async () => {
     try {
@@ -23,13 +28,16 @@ const TodoInstant = () => {
         complete: attributes.complete,
       }));
       setTodos(todosList);
+      notifySuccess("Successfully fetched the data form Strapi!");
     } catch (error) {
+      notifyError("Strapi Error!, unable to fetch.");
       console.error("Error fetching todos:", error);
     }
   };
 
   const createTodo = async () => {
     const newTask = newTodo.trim();
+    const prevTodos = [...todos];
     if (!newTask) return;
 
     const newTodoItem = {
@@ -48,19 +56,26 @@ const TodoInstant = () => {
           data: { task: newTask, complete: false },
         }
       );
+      notifySuccess("Successfully Added to Strapi!");
     } catch (error) {
+      notifyError("Strapi Error!, unable to add.");
+      setTodos(prevTodos);
       console.log("Error creating todo:", error);
     }
   };
 
   const deleteTodo = async (todoId) => {
+    const prevTodos = [...todos];
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
 
     try {
       await axios.delete(
         `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`
       );
+      notifySuccess("Successfully Delete from Strapi!");
     } catch (error) {
+      notifyError("Strapi Error!, unable to delete.");
+      setTodos(prevTodos);
       console.log("Error deleting todo:", error);
     }
   };
@@ -72,6 +87,7 @@ const TodoInstant = () => {
 
   const updateTodo = async () => {
     const newTask = newTodo.trim();
+    const prevTodos = [...todos];
     if (!newTask) return;
 
     setTodos((prevTodos) =>
@@ -84,10 +100,13 @@ const TodoInstant = () => {
 
     try {
       await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
+        `https://strapi-production-7efd.up.railway.app/api/todosee/${editTodoId}`,
         { data: { task: newTask } }
       );
+      notifySuccess("Successfully Updated to Strapi!");
     } catch (error) {
+      notifyError("Strapi Error!, unable to update.");
+      setTodos(prevTodos);
       console.log("Error updating todo:", error);
     }
   };
@@ -115,6 +134,7 @@ const TodoInstant = () => {
 
   return (
     <div className="todo-container">
+      <Toaster position="top-center" reverseOrder={false} />
       <h1 className="todo-heading">Todo List</h1>
       {editTodoId !== null ? (
         <div>
