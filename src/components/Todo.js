@@ -166,33 +166,35 @@ const Todo = () => {
               onClick={() => createTodo()}
             ></i>
           </div>
-          {todos.map(({ id, task, complete }) => (
-            <div key={id} className="todo-item">
-              <i
-                className={
-                  !complete
-                    ? "fa-regular fa-square-check fa-xl todo-checkbox"
-                    : "fa-solid fa-square-check fa-xl todo-checkbox"
-                }
-                onClick={() => toggleTodoComplete(id, complete)}
-              ></i>
-              <span
-                className={complete ? "completed-task" : "uncompleted-task"}
-              >
-                {task}
-              </span>
-              <div className="todo-buttons">
+          <div className="display-todos">
+            {todos.map(({ id, task, complete }) => (
+              <div key={id} className="todo-item">
                 <i
-                  className="fa-solid fa-pen-to-square fa-xl edit-button"
-                  onClick={() => startEditTodo(id, task)}
+                  className={
+                    !complete
+                      ? "fa-regular fa-square-check fa-xl todo-checkbox"
+                      : "fa-solid fa-square-check fa-xl todo-checkbox"
+                  }
+                  onClick={() => toggleTodoComplete(id, complete)}
                 ></i>
-                <i
-                  className="fa-solid fa-trash fa-xl delete-button"
-                  onClick={() => deleteTodo(id)}
-                ></i>
+                <span
+                  className={complete ? "completed-task" : "uncompleted-task"}
+                >
+                  {task}
+                </span>
+                <div className="todo-buttons">
+                  <i
+                    className="fa-solid fa-pen-to-square fa-xl edit-button"
+                    onClick={() => startEditTodo(id, task)}
+                  ></i>
+                  <i
+                    className="fa-solid fa-trash fa-xl delete-button"
+                    onClick={() => deleteTodo(id)}
+                  ></i>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
