@@ -22,11 +22,13 @@ const TodoInstant = () => {
         "https://strapi-production-7efd.up.railway.app/api/todos"
       );
       const todosData = response.data.data;
-      const todosList = todosData.map(({ id, attributes }) => ({
-        id,
-        task: attributes.task,
-        complete: attributes.complete,
-      }));
+      const todosList = todosData
+        .map(({ id, attributes }) => ({
+          id,
+          task: attributes.task,
+          complete: attributes.complete,
+        }))
+        .sort((a, b) => b.id - a.id);
       setTodos(todosList);
       notifySuccess("Successfully fetched the data form Strapi!");
     } catch (error) {
@@ -46,7 +48,7 @@ const TodoInstant = () => {
       complete: false,
     };
 
-    setTodos((prevTodos) => [...prevTodos, newTodoItem]);
+    setTodos((prevTodos) => [newTodoItem, ...prevTodos]);
     setNewTodo("");
 
     try {

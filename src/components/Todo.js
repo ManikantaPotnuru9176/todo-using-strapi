@@ -17,11 +17,13 @@ const Todo = () => {
         "https://strapi-production-7efd.up.railway.app/api/todos"
       );
       const todosData = response.data.data;
-      const todosList = todosData.map(({ id, attributes }) => ({
-        id,
-        task: attributes.task,
-        complete: attributes.complete,
-      }));
+      const todosList = todosData
+        .map(({ id, attributes }) => ({
+          id,
+          task: attributes.task,
+          complete: attributes.complete,
+        }))
+        .sort((a, b) => b.id - a.id);
       setTodos(todosList);
     } catch (error) {
       console.error("Error fetching todos:", error);
@@ -41,12 +43,12 @@ const Todo = () => {
       );
       const data = response.data.data;
       setTodos((prevTodos) => [
-        ...prevTodos,
         {
           id: data.id,
           task: data.attributes.task,
           complete: data.attributes.complete,
         },
+        ...prevTodos,
       ]);
       setNewTodo("");
     } catch (error) {
