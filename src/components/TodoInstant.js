@@ -102,7 +102,7 @@ const TodoInstant = () => {
 
     try {
       await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todosee/${editTodoId}`,
+        `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
         { data: { task: newTask } }
       );
       notifySuccess("Successfully Updated to Strapi!");
