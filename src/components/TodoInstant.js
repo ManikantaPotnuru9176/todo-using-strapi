@@ -12,32 +12,30 @@ const TodoInstant = () => {
     fetchTodos();
   }, []);
 
-  const notifySuccess = (msg) => toast.success(msg);
+  const fetchTodos = () => {
+    const promise = axios.get(
+      "https://strapi-production-7efd.up.railway.app/api/todos"
+    );
 
-  const notifyError = (msg) => toast.error(msg);
-
-  const fetchTodos = async () => {
-    try {
-      const response = await axios.get(
-        "https://strapi-production-7efd.up.railway.app/api/todos"
-      );
-      const todosData = response.data.data;
-      const todosList = todosData
-        .map(({ id, attributes }) => ({
-          id,
-          task: attributes.task,
-          complete: attributes.complete,
-        }))
-        .sort((a, b) => b.id - a.id);
-      setTodos(todosList);
-      notifySuccess("Successfully fetched the data form Strapi!");
-    } catch (error) {
-      notifyError("Strapi Error!, unable to fetch.");
-      console.error("Error fetching todos:", error);
-    }
+    toast.promise(promise, {
+      loading: "Loading",
+      success: (response) => {
+        const todosData = response.data.data;
+        const todosList = todosData
+          .map(({ id, attributes }) => ({
+            id,
+            task: attributes.task,
+            complete: attributes.complete,
+          }))
+          .sort((a, b) => b.id - a.id);
+        setTodos(todosList);
+        return "Successfully fetched the data from Strapi!";
+      },
+      error: "Strapi Error!, unable to fetch.",
+    });
   };
 
-  const createTodo = async () => {
+  const createTodo = () => {
     const newTask = newTodo.trim();
     const prevTodos = [...todos];
     if (!newTask) return;
@@ -51,43 +49,48 @@ const TodoInstant = () => {
     setTodos((prevTodos) => [newTodoItem, ...prevTodos]);
     setNewTodo("");
 
-    try {
-      await axios.post(
-        "https://strapi-production-7efd.up.railway.app/api/todos",
-        {
-          data: { task: newTask, complete: false },
-        }
-      );
-      notifySuccess("Successfully Added to Strapi!");
-    } catch (error) {
-      notifyError("Strapi Error!, unable to add.");
-      setTodos(prevTodos);
-      console.log("Error creating todo:", error);
-    }
+    const promise = axios.post(
+      "https://strapi-production-7efd.up.railway.app/api/todos",
+      {
+        data: { task: newTask, complete: false },
+      }
+    );
+
+    toast.promise(promise, {
+      loading: "Adding...",
+      success: "Successfully Added to Strapi!",
+      error: () => {
+        setTodos(prevTodos);
+        return "Strapi Error!, unable to add.";
+      },
+    });
   };
 
-  const deleteTodo = async (todoId) => {
+  const deleteTodo = (todoId) => {
     const prevTodos = [...todos];
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
 
-    try {
-      await axios.delete(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`
-      );
-      notifySuccess("Successfully Delete from Strapi!");
-    } catch (error) {
-      notifyError("Strapi Error!, unable to delete.");
-      setTodos(prevTodos);
-      console.log("Error deleting todo:", error);
-    }
+    const promise = axios.delete(
+      `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`
+    );
+
+    toast.promise(promise, {
+      loading: "Deleting...",
+      success: "Successfully Deleted from Strapi!",
+      error: () => {
+        setTodos(prevTodos);
+        return "Strapi Error!, unable to delete.";
+      },
+    });
   };
 
   const startEditTodo = (todoId, todoTask) => {
     setNewTodo(todoTask);
     setEditTodoId(todoId);
+    toast("You are editing a todo..");
   };
 
-  const updateTodo = async () => {
+  const updateTodo = () => {
     const newTask = newTodo.trim();
     const prevTodos = [...todos];
     if (!newTask) return;
@@ -100,17 +103,19 @@ const TodoInstant = () => {
     setNewTodo("");
     setEditTodoId(null);
 
-    try {
-      await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
-        { data: { task: newTask } }
-      );
-      notifySuccess("Successfully Updated to Strapi!");
-    } catch (error) {
-      notifyError("Strapi Error!, unable to update.");
-      setTodos(prevTodos);
-      console.log("Error updating todo:", error);
-    }
+    const promise = axios.put(
+      `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
+      { data: { task: newTask } }
+    );
+
+    toast.promise(promise, {
+      loading: "Updating...",
+      success: "Successfully Updated to Strapi!",
+      error: () => {
+        setTodos(prevTodos);
+        return "Strapi Error!, unable to update.";
+      },
+    });
   };
 
   const toggleTodoComplete = async (todoId, complete) => {

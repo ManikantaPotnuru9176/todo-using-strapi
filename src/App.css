@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px;
+  margin: 90px 20px 22px 20px;
   font-size: 24px;
   cursor: pointer;
 }
@@ -22,6 +22,5 @@ p {
   color: #777;
   font-size: 18px;
   font-weight: bold;
-  margin: 20px;
+  margin: 10px;
 }
-
