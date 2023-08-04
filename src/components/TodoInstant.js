@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Todo.css";
 import toast, { Toaster } from "react-hot-toast";
+import { nanoid } from "nanoid";
 
 const TodoInstant = () => {
   const [todos, setTodos] = useState([]);
@@ -41,7 +42,7 @@ const TodoInstant = () => {
     if (!newTask) return;
 
     const newTodoItem = {
-      id: Date.now(),
+      id: todos.at(0).id + 1,
       task: newTask,
       complete: false,
     };
@@ -52,7 +53,7 @@ const TodoInstant = () => {
     const promise = axios.post(
       "https://strapi-production-7efd.up.railway.app/api/todos",
       {
-        data: { task: newTask, complete: false },
+        data: { id: newTodoItem.id, task: newTask, complete: false },
       }
     );
 
