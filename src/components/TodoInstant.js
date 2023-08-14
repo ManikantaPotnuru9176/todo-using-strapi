@@ -1,8 +1,7 @@
-import axios from "axios";
+import axios from "../axiosConfig";
 import React, { useEffect, useState } from "react";
 import "./Todo.css";
 import toast, { Toaster } from "react-hot-toast";
-import { nanoid } from "nanoid";
 
 const TodoInstant = () => {
   const [todos, setTodos] = useState([]);
@@ -14,9 +13,7 @@ const TodoInstant = () => {
   }, []);
 
   const fetchTodos = () => {
-    const promise = axios.get(
-      "https://strapi-production-7efd.up.railway.app/api/todos"
-    );
+    const promise = axios.get("/todos");
 
     toast.promise(promise, {
       loading: "Loading",
@@ -51,7 +48,7 @@ const TodoInstant = () => {
     setNewTodo("");
 
     const promise = axios.post(
-      "https://strapi-production-7efd.up.railway.app/api/todos",
+      "/todos",
       {
         data: { id: newTodoItem.id, task: newTask, complete: false },
       }
@@ -72,7 +69,7 @@ const TodoInstant = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
 
     const promise = axios.delete(
-      `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`
+      `/todos/${todoId}`
     );
 
     toast.promise(promise, {
@@ -105,7 +102,7 @@ const TodoInstant = () => {
     setEditTodoId(null);
 
     const promise = axios.put(
-      `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
+      `/todos/${editTodoId}`,
       { data: { task: newTask } }
     );
 
@@ -128,7 +125,7 @@ const TodoInstant = () => {
 
     try {
       await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`,
+        `/todos/${todoId}`,
         { data: { complete: !complete } }
       );
     } catch (error) {
