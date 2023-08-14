@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axiosConfig";
 import React, { useEffect, useState } from "react";
 import "./Todo.css";
 
@@ -14,7 +14,7 @@ const Todo = () => {
   const fetchTodos = async () => {
     try {
       const response = await axios.get(
-        "https://strapi-production-7efd.up.railway.app/api/todos"
+        "/todos"
       );
       const todosData = response.data.data;
       const todosList = todosData
@@ -36,7 +36,7 @@ const Todo = () => {
 
     try {
       const response = await axios.post(
-        "https://strapi-production-7efd.up.railway.app/api/todos",
+        "/todos",
         {
           data: { task: newTask, complete: false },
         }
@@ -59,7 +59,7 @@ const Todo = () => {
   const deleteTodo = async (todoId) => {
     try {
       const response = await axios.delete(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`
+        `/todos/${todoId}`
       );
       const data = response.data.data;
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== data.id));
@@ -79,7 +79,7 @@ const Todo = () => {
 
     try {
       const response = await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${editTodoId}`,
+        `/todos/${editTodoId}`,
         { data: { task: newTask } }
       );
       const data = response.data.data;
@@ -100,7 +100,7 @@ const Todo = () => {
   const toggleTodoComplete = async (todoId, complete) => {
     try {
       const response = await axios.put(
-        `https://strapi-production-7efd.up.railway.app/api/todos/${todoId}`,
+        `/todos/${todoId}`,
         { data: { complete: !complete } }
       );
       const data = response.data.data;
